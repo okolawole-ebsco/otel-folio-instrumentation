@@ -10,7 +10,7 @@ import io.vertx.core.http.HttpClientRequest;
 import io.vertx.core.http.HttpClientResponse;
 import org.folio.javaagent.common.VertxClientInstrumenterFactory;
 
-public final class VertxClientSingletons {
+public final class VertxSingletons {
 
   private static final Instrumenter<HttpClientRequest, HttpClientResponse> INSTRUMENTER =
       VertxClientInstrumenterFactory.create(
@@ -22,5 +22,5 @@ public final class VertxClientSingletons {
     return INSTRUMENTER;
   }
 
-  private VertxClientSingletons() {}
+  private VertxSingletons() {}
 }
