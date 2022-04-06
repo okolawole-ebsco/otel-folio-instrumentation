@@ -27,13 +27,13 @@ To simplify deployment, you can embed extensions into the OpenTelemetry Java Age
 For more information, see the `extendedAgent` task in [build.gradle](build.gradle).
 ## Extensions examples
 
-* Custom `IdGenerator`: [DemoIdGenerator](src/main/java/com/example/javaagent/DemoIdGenerator.java)
-* Custom `TextMapPropagator`: [DemoPropagator](src/main/java/com/example/javaagent/DemoPropagator.java)
-* New default configuration: [DemoPropertySource](src/main/java/com/example/javaagent/DemoPropertySource.java)
-* Custom `Sampler`: [DemoSampler](src/main/java/com/example/javaagent/DemoSampler.java)
-* Custom `SpanProcessor`: [DemoSpanProcessor](src/main/java/com/example/javaagent/DemoSpanProcessor.java)
-* Custom `SpanExporter`: [DemoSpanExporter](src/main/java/com/example/javaagent/DemoSpanExporter.java)
-* Additional instrumentation: [DemoServlet3InstrumentationModule](src/main/java/com/example/javaagent/instrumentation/DemoServlet3InstrumentationModule.java)
+* Custom `IdGenerator`: [DemoIdGenerator](folio/src/main/java/com/example/javaagent/DemoIdGenerator.java)
+* Custom `TextMapPropagator`: [DemoPropagator](folio/src/main/java/com/example/javaagent/DemoPropagator.java)
+* New default configuration: [DemoPropertySource](folio/src/main/java/com/example/javaagent/DemoPropertySource.java)
+* Custom `Sampler`: [DemoSampler](folio/src/main/java/com/example/javaagent/DemoSampler.java)
+* Custom `SpanProcessor`: [DemoSpanProcessor](folio/src/main/java/com/example/javaagent/DemoSpanProcessor.java)
+* Custom `SpanExporter`: [DemoSpanExporter](folio/src/main/java/com/example/javaagent/DemoSpanExporter.java)
+* Additional instrumentation: [DemoServlet3InstrumentationModule](folio/src/main/java/com/example/javaagent/instrumentation/DemoServlet3InstrumentationModule.java)
 
 ## Sample use cases
 
@@ -53,7 +53,7 @@ Create an extension that provide a custom `SpanProcessor`.
 
 Create an extension with new instrumentation which injects its own advice into the same method as the original one. You can use the `order` method to ensure it runs after the original instrumentation and augment the current span with new information.
 
-For example, see [DemoServlet3InstrumentationModule](src/main/java/com/example/javaagent/instrumentation/DemoServlet3InstrumentationModule.java).
+For example, see [DemoServlet3InstrumentationModule](folio/src/main/java/com/example/javaagent/instrumentation/DemoServlet3InstrumentationModule.java).
 
 ### "I want to remove some attributes"
 

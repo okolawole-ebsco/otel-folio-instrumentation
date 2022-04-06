@@ -1,0 +1,24 @@
+
+plugins{
+    id 'idea'
+    id 'java'
+}
+
+group 'org.folio.opentelemetry'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "sonatype"
+        url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+    }
+    maven {
+        name = "folio-nexus"
+        url= uri("https://repository.folio.org/repository/maven-releases")
+    }
+    maven {
+        name = "indexData"
+        url = uri("https://maven.indexdata.com")
+    }
+}
