@@ -1,14 +1,12 @@
-package org.folio.javaagent.instrumentation;
+package org.folio.javaagent.instrumentation.vertx;
 
 import io.opentelemetry.javaagent.extension.instrumentation.TypeInstrumentation;
 import io.opentelemetry.javaagent.extension.instrumentation.TypeTransformer;
-import io.vertx.core.VertxOptions;
 import io.vertx.core.impl.ContextInternal;
 import io.vertx.sqlclient.impl.tracing.QueryTracer;
 import net.bytebuddy.asm.Advice;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.matcher.ElementMatcher;
-import org.folio.tracing.vertx.OpenTelemetryOptions;
 
 import static io.opentelemetry.javaagent.extension.matcher.AgentElementMatchers.hasClassesNamed;
 import static net.bytebuddy.matcher.ElementMatchers.*;

@@ -1,8 +1,3 @@
-/*
- * Copyright The OpenTelemetry Authors
- * SPDX-License-Identifier: Apache-2.0
- */
-
 package org.folio.instrumentation.log4j2;
 
 import io.vertx.core.Context;

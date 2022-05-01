@@ -12,12 +12,13 @@ package org.folio.tracing.vertx;
 
 import io.opentelemetry.context.propagation.TextMapSetter;
 
+import javax.annotation.Nullable;
 import java.util.function.BiConsumer;
 
 final class HeadersPropagatorSetter implements TextMapSetter<BiConsumer<String, String>> {
 
   @Override
-  public void set(final BiConsumer<String, String> carrier, final String key, final String value) {
+  public void set(@Nullable final BiConsumer<String, String> carrier, final String key, final String value) {
     if (carrier == null) {
       return;
     }

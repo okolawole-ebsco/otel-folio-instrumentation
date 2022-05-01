@@ -1,9 +1,4 @@
-/*
- * Copyright The OpenTelemetry Authors
- * SPDX-License-Identifier: Apache-2.0
- */
-
-package org.folio.javaagent.instrumentation;
+package org.folio.javaagent.instrumentation.logging;
 
 import com.google.auto.service.AutoService;
 import io.opentelemetry.javaagent.extension.instrumentation.HelperResourceBuilder;
@@ -16,37 +11,30 @@ import net.bytebuddy.matcher.ElementMatcher;
 import java.util.List;
 
 import static io.opentelemetry.javaagent.extension.matcher.AgentElementMatchers.hasClassesNamed;
-import static java.util.Arrays.asList;
 import static net.bytebuddy.matcher.ElementMatchers.named;
 
 @AutoService(InstrumentationModule.class)
-public class FolioModuleInstrumentationModule extends InstrumentationModule {
+public class FolioLoggingInstrumentationModule extends InstrumentationModule {
 
-  public FolioModuleInstrumentationModule() {
-    super("folio");
+  public FolioLoggingInstrumentationModule() {
+    super("folio-logging", "folio");
   }
 
   @Override
   public ElementMatcher.Junction<ClassLoader> classLoaderMatcher() {
-    return hasClassesNamed("org.folio.rest.RestLauncher");
+    return hasClassesNamed("org.apache.logging.log4j.Logger");
   }
 
   @Override
   public List<TypeInstrumentation> typeInstrumentations() {
-    return asList(
-        new VertxOptionsInstrumentation(),
-        new VertxPgClientInstrumentation(),
-        new VertxQueryResultBuilderInstrumentation(),
-        new ResourceInjectingTypeInstrumentation());
-  }
-
-  @Override
-  public boolean isHelperClass(String className) {
-    return className.startsWith("org.folio");
+    return List.of(
+            new ResourceInjectingTypeInstrumentation());
   }
 
   @Override
   public void registerHelperResources(HelperResourceBuilder helperResourceBuilder) {
+    // service file is preprended with 'application.' because the java agent jar has its own service file.
+    // so OTel picks up the service in the java agent jar rather than this one.
     helperResourceBuilder.register(
             "META-INF/services/org.apache.logging.log4j.core.util.ContextDataProvider",
             "META-INF/services/application.org.apache.logging.log4j.core.util.ContextDataProvider");

@@ -6,7 +6,7 @@ import io.opentelemetry.context.Scope;
 import io.vertx.core.Vertx;
 
 public class VertxContextStorage implements ContextStorage {
-  public static String ACTIVE_CONTEXT = "folio.tracing.context";
+  public static final String ACTIVE_CONTEXT = "folio.tracing.context";
 
   private static VertxContextStorage INSTANCE;
 

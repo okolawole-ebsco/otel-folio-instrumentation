@@ -12,6 +12,7 @@ package org.folio.tracing.vertx;
 
 import io.opentelemetry.context.propagation.TextMapGetter;
 
+import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -28,7 +29,7 @@ final class HeadersPropagatorGetter implements TextMapGetter<Iterable<Entry<Stri
   }
 
   @Override
-  public String get(final Iterable<Entry<String, String>> carrier, final String key) {
+  public String get(@Nullable final Iterable<Entry<String, String>> carrier, final String key) {
     if (carrier == null) {
       return null;
     }

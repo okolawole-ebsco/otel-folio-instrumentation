@@ -1,4 +1,4 @@
-package org.folio.javaagent.instrumentation;
+package org.folio.javaagent.instrumentation.vertx;
 
 import io.opentelemetry.javaagent.extension.instrumentation.TypeInstrumentation;
 import io.opentelemetry.javaagent.extension.instrumentation.TypeTransformer;
