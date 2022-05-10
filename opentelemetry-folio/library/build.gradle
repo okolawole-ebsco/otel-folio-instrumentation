@@ -10,7 +10,7 @@ archivesBaseName = 'folio-otel-extensions-lib'
 dependencies {
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.0'
     compileOnly group: 'io.vertx', name: 'vertx-core', version: '4.2.2'
-    compileOnly("io.opentelemetry:opentelemetry-api:1.11.0")
+    compileOnly("io.opentelemetry:opentelemetry-api:1.13.0")
 }
 
 publishing {

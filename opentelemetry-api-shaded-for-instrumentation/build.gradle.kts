@@ -7,7 +7,7 @@ plugins {
 description = "opentelemetry-api shaded for internal javaagent usage"
 
 dependencies {
-    implementation("io.opentelemetry:opentelemetry-api:1.11.0")
+    implementation("io.opentelemetry:opentelemetry-api:1.13.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }

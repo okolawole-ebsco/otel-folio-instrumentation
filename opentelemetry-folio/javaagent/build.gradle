@@ -13,16 +13,16 @@ plugins {
     id "com.github.johnrengelman.shadow" version "6.1.0"
     id "com.diffplug.spotless" version "6.1.2"
 
-    id "io.opentelemetry.instrumentation.muzzle-generation" version "1.11.1-alpha"
-    id "io.opentelemetry.instrumentation.muzzle-check" version "1.11.1-alpha"
+    id "io.opentelemetry.instrumentation.muzzle-generation" version "1.13.1-alpha"
+    id "io.opentelemetry.instrumentation.muzzle-check" version "1.13.1-alpha"
 }
 
 ext {
     versions = [
             opentelemetry              : "1.9.1",
             opentelemetryAlpha         : "1.9.1-alpha",
-            opentelemetryJavaagent     : "1.11.1",
-            opentelemetryJavaagentAlpha: "1.11.1-alpha",
+            opentelemetryJavaagent     : "1.13.1",
+            opentelemetryJavaagentAlpha: "1.13.1-alpha",
     ]
 
     deps = [
@@ -59,7 +59,8 @@ dependencies {
     compileOnly group: 'io.vertx', name: 'vertx-pg-client', version: '4.2.2'
     compileOnly group: 'org.folio', name: 'domain-models-runtime', version: '33.2.3'
     compileOnly group: 'org.folio', name: 'folio-kafka-wrapper', version: '2.5.0'
-    compileOnly group: 'io.opentelemetry', name: 'opentelemetry-api', version: '1.11.0'
+    compileOnly group: 'io.opentelemetry', name: 'opentelemetry-api', version: '1.13.0'
+    compileOnly group: 'io.opentelemetry', name: 'opentelemetry-semconv', version: '1.13.0-alpha'
 
     implementation(project(path: ":opentelemetry-folio:library"))
     implementation(project(path: ":opentelemetry-folio:library-autoconfigure"))
