@@ -64,6 +64,7 @@ dependencies {
 
     implementation(project(path: ":opentelemetry-folio:library"))
     implementation(project(path: ":opentelemetry-folio:library-autoconfigure"))
+    implementation group: 'io.vertx', name: 'vertx-opentelemetry', version: '4.3.0-SNAPSHOT'
 
 
     //Otel Java instrumentation that we use and extend during integration tests

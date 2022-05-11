@@ -6,7 +6,7 @@ import io.vertx.core.VertxOptions;
 import net.bytebuddy.asm.Advice;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.matcher.ElementMatcher;
-import org.folio.tracing.vertx.OpenTelemetryOptions;
+import io.vertx.tracing.opentelemetry.OpenTelemetryOptions;
 
 import static io.opentelemetry.javaagent.extension.matcher.AgentElementMatchers.hasClassesNamed;
 import static net.bytebuddy.matcher.ElementMatchers.*;

@@ -11,6 +11,10 @@ import net.bytebuddy.matcher.ElementMatcher;
 import static io.opentelemetry.javaagent.extension.matcher.AgentElementMatchers.hasClassesNamed;
 import static net.bytebuddy.matcher.ElementMatchers.*;
 
+/**
+ * This instrumentation was needed because of a bug [https://github.com/eclipse-vertx/vertx-sql-client/issues/1171].
+ * This has been fixed.
+ */
 public class VertxQueryResultBuilderInstrumentation implements TypeInstrumentation {
 
   @Override

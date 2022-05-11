@@ -26,13 +26,15 @@ public class FolioVertxInstrumentationModule extends InstrumentationModule {
   public List<TypeInstrumentation> typeInstrumentations() {
     return asList(
         new VertxOptionsInstrumentation(),
-        new VertxPgClientInstrumentation(),
-        new VertxQueryResultBuilderInstrumentation());
+        new VertxPgClientInstrumentation()
+            // Instrumentation below is longer needed since bug has been fixed in vertx-otel
+//        new VertxQueryResultBuilderInstrumentation()
+    );
   }
 
   @Override
   public boolean isHelperClass(String className) {
-    return className.startsWith("org.folio");
+    return className.startsWith("io.vertx.tracing");
   }
 
 
