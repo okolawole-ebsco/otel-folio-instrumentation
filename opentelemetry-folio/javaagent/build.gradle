@@ -19,8 +19,8 @@ plugins {
 
 ext {
     versions = [
-            opentelemetry              : "1.9.1",
-            opentelemetryAlpha         : "1.9.1-alpha",
+            opentelemetry              : "1.12.0",
+            opentelemetryAlpha         : "1.12.0-alpha",
             opentelemetryJavaagent     : "1.13.1",
             opentelemetryJavaagentAlpha: "1.13.1-alpha",
     ]
@@ -65,6 +65,7 @@ dependencies {
     implementation(project(path: ":opentelemetry-folio:library"))
     implementation(project(path: ":opentelemetry-folio:library-autoconfigure"))
     implementation group: 'io.vertx', name: 'vertx-opentelemetry', version: '4.3.0-SNAPSHOT'
+    implementation 'io.opentelemetry.contrib:opentelemetry-samplers:1.13.0-alpha'
 
 
     //Otel Java instrumentation that we use and extend during integration tests
