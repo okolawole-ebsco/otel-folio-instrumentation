@@ -2,6 +2,7 @@ package org.folio.tracing.vertx;
 
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
+import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Scope;
 import io.vertx.core.spi.tracing.VertxTracer;
 import io.vertx.core.tracing.TracingOptions;
@@ -19,7 +20,7 @@ public class OpenTelemetryOptions extends TracingOptions {
     this.setFactory(VertxSingletons.OPEN_TELEMETRY_TRACING_FACTORY);
   }
 
-  VertxTracer<Scope, Scope> buildTracer() {
+  VertxTracer<Span, Span> buildTracer() {
     if (openTelemetry != null) {
       return new OpenTelemetryTracer(openTelemetry);
     } else {
