@@ -34,6 +34,8 @@ public class FolioVertxInstrumentationModule extends InstrumentationModule {
 
   @Override
   public boolean isHelperClass(String className) {
+    // used to pull in vertx-opentelemetry classes. This is configure the vertx storage provider as well
+    // as the tracer
     return className.startsWith("io.vertx.tracing");
   }
 

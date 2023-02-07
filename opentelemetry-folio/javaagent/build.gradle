@@ -13,16 +13,16 @@ plugins {
     id "com.github.johnrengelman.shadow" version "6.1.0"
     id "com.diffplug.spotless" version "6.1.2"
 
-    id "io.opentelemetry.instrumentation.muzzle-generation" version "1.13.1-alpha"
-    id "io.opentelemetry.instrumentation.muzzle-check" version "1.13.1-alpha"
+    id "io.opentelemetry.instrumentation.muzzle-generation" version "1.22.0-alpha"
+    id "io.opentelemetry.instrumentation.muzzle-check" version "1.22.0-alpha"
 }
 
 ext {
     versions = [
-            opentelemetry              : "1.12.0",
-            opentelemetryAlpha         : "1.12.0-alpha",
-            opentelemetryJavaagent     : "1.13.1",
-            opentelemetryJavaagentAlpha: "1.13.1-alpha",
+            opentelemetry              : "1.22.0",
+            opentelemetryAlpha         : "1.22.0-alpha",
+            opentelemetryJavaagent     : "1.22.0",
+            opentelemetryJavaagentAlpha: "1.13.0-alpha",
     ]
 
     deps = [
@@ -48,24 +48,23 @@ dependencies {
      */
     compileOnly("io.opentelemetry:opentelemetry-sdk-extension-autoconfigure:${versions.opentelemetryAlpha}")
     compileOnly("io.opentelemetry.javaagent:opentelemetry-javaagent-instrumentation-api:${versions.opentelemetryJavaagentAlpha}")
-    compileOnly("io.opentelemetry.javaagent:opentelemetry-javaagent-extension-api:${versions.opentelemetryJavaagentAlpha}")
+    compileOnly("io.opentelemetry.javaagent:opentelemetry-javaagent-extension-api:${versions.opentelemetryAlpha}")
 
     //Provides @AutoService annotation that makes registration of our SPI implementations much easier
     compileOnly deps.autoservice
     annotationProcessor deps.autoservice
 
-    compileOnly group: 'io.vertx', name: 'vertx-core', version: '4.2.2'
-    compileOnly group: 'io.vertx', name: 'vertx-sql-client', version: '4.2.2'
-    compileOnly group: 'io.vertx', name: 'vertx-pg-client', version: '4.2.2'
+    compileOnly group: 'io.vertx', name: 'vertx-core', version: '4.3.1'
+    compileOnly group: 'io.vertx', name: 'vertx-sql-client', version: '4.3.1'
+    compileOnly group: 'io.vertx', name: 'vertx-pg-client', version: '4.3.1'
     compileOnly group: 'org.folio', name: 'domain-models-runtime', version: '33.2.3'
     compileOnly group: 'org.folio', name: 'folio-kafka-wrapper', version: '2.5.0'
-    compileOnly group: 'io.opentelemetry', name: 'opentelemetry-api', version: '1.13.0'
-    compileOnly group: 'io.opentelemetry', name: 'opentelemetry-semconv', version: '1.13.0-alpha'
+    compileOnly group: 'io.opentelemetry', name: 'opentelemetry-api', version: '1.22.0'
+    compileOnly group: 'io.opentelemetry', name: 'opentelemetry-semconv', version: '1.22.0-alpha'
 
-    implementation(project(path: ":opentelemetry-folio:library"))
     implementation(project(path: ":opentelemetry-folio:library-autoconfigure"))
-    implementation group: 'io.vertx', name: 'vertx-opentelemetry', version: '4.3.0-SNAPSHOT'
-    implementation 'io.opentelemetry.contrib:opentelemetry-samplers:1.13.0-alpha'
+    implementation group: 'io.vertx', name: 'vertx-opentelemetry', version: '4.3.4'
+    implementation 'io.opentelemetry.contrib:opentelemetry-samplers:1.22.0-alpha'
 
 
     //Otel Java instrumentation that we use and extend during integration tests
@@ -82,6 +81,12 @@ dependencies {
 }
 
 archivesBaseName = 'folio-otel-javaagent-extensions'
+
+
+java {
+    withSourcesJar()
+    // and/or analogously use “withJavadocJar()” to get a “javadocJar” task
+}
 
 //Produces a copy of upstream javaagent with this extension jar included inside it
 //The location of extension directory inside agent jar is hard-coded in the agent source code

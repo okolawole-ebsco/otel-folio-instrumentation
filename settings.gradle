@@ -10,6 +10,5 @@ pluginManagement {
 
 rootProject.name = 'opentelemetry-folio-instrumentation'
 include 'opentelemetry-folio:javaagent'
-include 'opentelemetry-folio:library'
 include 'opentelemetry-folio:library-autoconfigure'
 
