@@ -1,5 +1,7 @@
 package org.folio.javaagent.instrumentation.kafka;
 
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.context.Context;
 import io.opentelemetry.javaagent.extension.instrumentation.TypeInstrumentation;
 import io.opentelemetry.javaagent.extension.instrumentation.TypeTransformer;
 import io.vertx.kafka.client.consumer.KafkaConsumerRecord;
@@ -17,6 +19,7 @@ import static io.opentelemetry.javaagent.extension.matcher.AgentElementMatchers.
 import static io.opentelemetry.javaagent.extension.matcher.AgentElementMatchers.implementsInterface;
 import static net.bytebuddy.matcher.ElementMatchers.named;
 import static net.bytebuddy.matcher.ElementMatchers.takesArgument;
+import static org.folio.javaagent.instrumentation.Singletons.CONTEXT_STORAGE_PROVIDER;
 
 public class FolioAsyncRecordHandlerInstrumentation implements TypeInstrumentation {
 
@@ -43,11 +46,16 @@ public class FolioAsyncRecordHandlerInstrumentation implements TypeInstrumentati
     @SuppressWarnings("unchecked")
     @Advice.OnMethodEnter(suppress = Throwable.class)
     public static void setContext(@Advice.Argument(value = 0) KafkaConsumerRecord record) {
+      // add request id to folio logging context
       List<KafkaHeader> kafkaHeaders = record.headers();
       FolioLoggingContext.put(
           FolioLoggingContext.REQUEST_ID_LOGGING_VAR_NAME,
           KafkaHeaderUtils.kafkaHeadersToMap(kafkaHeaders)
               .get(RestVerticle.OKAPI_REQUESTID_HEADER.toLowerCase()));
+
+      // update span name to topic name
+      Context context = CONTEXT_STORAGE_PROVIDER.get().current();
+      Span.fromContext(context).updateName("kafka_receive:" + record.topic());
     }
   }
 }

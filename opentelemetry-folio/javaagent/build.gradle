@@ -10,27 +10,25 @@ plugins {
     into a single jar.
     See https://imperceptiblethoughts.com/shadow/ for more details about Shadow plugin.
      */
-    id "com.github.johnrengelman.shadow" version "6.1.0"
-    id "com.diffplug.spotless" version "6.1.2"
+    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id "com.diffplug.spotless" version "6.22.0"
 
-    id "io.opentelemetry.instrumentation.muzzle-generation" version "1.22.0-alpha"
-    id "io.opentelemetry.instrumentation.muzzle-check" version "1.22.0-alpha"
+    id "io.opentelemetry.instrumentation.muzzle-generation" version "1.31.0-alpha"
+    id "io.opentelemetry.instrumentation.muzzle-check" version "1.31.0-alpha"
 }
 
 ext {
     versions = [
-            opentelemetry              : "1.22.0",
-            opentelemetryAlpha         : "1.22.0-alpha",
-            opentelemetryJavaagent     : "1.22.0",
-            opentelemetryJavaagentAlpha: "1.13.0-alpha",
+            opentelemetrySdk           : "1.31.0",
+            opentelemetryJavaagent     : "1.31.0",
+            opentelemetryJavaagentAlpha: "1.31.0-alpha",
+            junit                      : "5.10.0"
     ]
 
     deps = [
-            autoservice: dependencies.create(group: 'com.google.auto.service', name: 'auto-service', version: '1.0')
+            autoservice: dependencies.create(group: 'com.google.auto.service', name: 'auto-service', version: '1.1.1')
     ]
 }
-
-archivesBaseName = 'otel-javaagent-folio'
 
 configurations {
     /*
@@ -42,29 +40,38 @@ configurations {
 }
 
 dependencies {
+    implementation(platform("io.opentelemetry:opentelemetry-bom:${versions.opentelemetrySdk}"))
+
+    // these serve as a test of the instrumentation boms
+    implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:${versions.opentelemetryJavaagent}"))
+    implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom-alpha:${versions.opentelemetryJavaagentAlpha}"))
     /*
     Interfaces and SPIs that we implement. We use `compileOnly` dependency because during
     runtime all necessary classes are provided by javaagent itself.
      */
-    compileOnly("io.opentelemetry:opentelemetry-sdk-extension-autoconfigure:${versions.opentelemetryAlpha}")
-    compileOnly("io.opentelemetry.javaagent:opentelemetry-javaagent-instrumentation-api:${versions.opentelemetryJavaagentAlpha}")
-    compileOnly("io.opentelemetry.javaagent:opentelemetry-javaagent-extension-api:${versions.opentelemetryAlpha}")
+    compileOnly("io.opentelemetry:opentelemetry-sdk-extension-autoconfigure")
+    compileOnly("io.opentelemetry.instrumentation:opentelemetry-instrumentation-api")
+    compileOnly("io.opentelemetry.javaagent:opentelemetry-javaagent-extension-api")
 
     //Provides @AutoService annotation that makes registration of our SPI implementations much easier
     compileOnly deps.autoservice
     annotationProcessor deps.autoservice
 
-    compileOnly group: 'io.vertx', name: 'vertx-core', version: '4.3.1'
-    compileOnly group: 'io.vertx', name: 'vertx-sql-client', version: '4.3.1'
-    compileOnly group: 'io.vertx', name: 'vertx-pg-client', version: '4.3.1'
-    compileOnly group: 'org.folio', name: 'domain-models-runtime', version: '33.2.3'
-    compileOnly group: 'org.folio', name: 'folio-kafka-wrapper', version: '2.5.0'
-    compileOnly group: 'io.opentelemetry', name: 'opentelemetry-api', version: '1.22.0'
-    compileOnly group: 'io.opentelemetry', name: 'opentelemetry-semconv', version: '1.22.0-alpha'
+    compileOnly group: 'io.vertx', name: 'vertx-core', version: '4.3.7'
+    compileOnly group: 'io.vertx', name: 'vertx-kafka-client', version: '4.3.7'
+    compileOnly group: 'io.vertx', name: 'vertx-sql-client', version: '4.3.7'
+    compileOnly group: 'io.vertx', name: 'vertx-pg-client', version: '4.3.7'
+    compileOnly group: 'org.folio', name: 'domain-models-runtime', version: '35.0.1'
+    compileOnly group: 'org.folio', name: 'folio-kafka-wrapper', version: '3.0.0'
+    compileOnly group: 'io.opentelemetry', name: 'opentelemetry-api'
 
     implementation(project(path: ":opentelemetry-folio:library-autoconfigure"))
-    implementation group: 'io.vertx', name: 'vertx-opentelemetry', version: '4.3.4'
-    implementation 'io.opentelemetry.contrib:opentelemetry-samplers:1.22.0-alpha'
+    implementation group: 'io.vertx', name: 'vertx-opentelemetry', version: '4.3.7'
+    implementation "io.opentelemetry.contrib:opentelemetry-samplers:${versions.opentelemetryJavaagentAlpha}"
+//    implementation "io.opentelemetry.contrib:opentelemetry-noop-api:${versions.opentelemetryJavaagentAlpha}"
+    implementation 'io.opentelemetry.instrumentation:opentelemetry-resources'
+    implementation 'io.opentelemetry.semconv:opentelemetry-semconv'
+
 
 
     //Otel Java instrumentation that we use and extend during integration tests
@@ -72,12 +79,9 @@ dependencies {
 
     //TODO remove when start using io.opentelemetry.instrumentation.javaagent-instrumentation plugin
     add("codegen", "io.opentelemetry.javaagent:opentelemetry-javaagent-tooling:${versions.opentelemetryJavaagentAlpha}")
-    add("codegen", "ch.qos.logback:logback-classic:1.2.3")
-    add("muzzleBootstrap", "io.opentelemetry.instrumentation:opentelemetry-instrumentation-api-annotation-support:${versions.opentelemetryJavaagentAlpha}")
-    add("muzzleBootstrap", "io.opentelemetry.javaagent:opentelemetry-javaagent-instrumentation-api:${versions.opentelemetryJavaagentAlpha}")
+    add("muzzleBootstrap", "io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations-support:${versions.opentelemetryJavaagentAlpha}")
     add("muzzleTooling", "io.opentelemetry.javaagent:opentelemetry-javaagent-extension-api:${versions.opentelemetryJavaagentAlpha}")
     add("muzzleTooling", "io.opentelemetry.javaagent:opentelemetry-javaagent-tooling:${versions.opentelemetryJavaagentAlpha}")
-    add("muzzleTooling", "org.slf4j:slf4j-simple:1.7.30")
 }
 
 archivesBaseName = 'folio-otel-javaagent-extensions'
@@ -126,6 +130,6 @@ muzzle {
     pass {
         group.set("org.folio")
         module.set("domain-models-runtime")
-        versions.set("33.2.3")
+        versions.set("35.0.1")
     }
 }

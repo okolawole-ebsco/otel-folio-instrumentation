@@ -16,12 +16,16 @@ public class FolioRequestAttributesSpanProcessor implements SpanProcessor {
     public void onStart(Context parentContext, ReadWriteSpan span) {
         // set folio headers from baggage into span
         Baggage current = Baggage.current();
-        span.setAttribute(FOLIO_USER_ID,
-                Objects.requireNonNullElse(current.getEntryValue(FOLIO_USER_ID), ""));
-        span.setAttribute(FOLIO_REQUEST_ID,
-                Objects.requireNonNullElse(current.getEntryValue(FOLIO_REQUEST_ID), ""));
-        span.setAttribute(FOLIO_TENANT_ID,
-                Objects.requireNonNullElse(current.getEntryValue(FOLIO_TENANT_ID), ""));
+        String userId = current.getEntryValue(FOLIO_USER_ID);
+        String requestId = current.getEntryValue(FOLIO_REQUEST_ID);
+        String tenantId = current.getEntryValue(FOLIO_TENANT_ID);
+
+        if(Objects.nonNull(userId))
+            span.setAttribute(FOLIO_USER_ID, userId);
+        if(Objects.nonNull(requestId))
+            span.setAttribute(FOLIO_REQUEST_ID, requestId);
+        if(Objects.nonNull(tenantId))
+            span.setAttribute(FOLIO_TENANT_ID, tenantId);
     }
 
     @Override

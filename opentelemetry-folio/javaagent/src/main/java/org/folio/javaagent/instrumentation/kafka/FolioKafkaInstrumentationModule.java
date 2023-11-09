@@ -26,4 +26,10 @@ public class FolioKafkaInstrumentationModule extends InstrumentationModule {
     return List.of(
             new FolioAsyncRecordHandlerInstrumentation());
   }
+
+  @Override
+  public boolean isHelperClass(String className) {
+    return className.equals("org.folio.javaagent.instrumentation.Singletons") ||
+            className.startsWith("io.vertx.tracing");
+  }
 }

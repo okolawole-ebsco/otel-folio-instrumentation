@@ -31,6 +31,6 @@ public class FolioRmbInstrumentationModule extends InstrumentationModule {
   @Override
   public boolean isHelperClass(String className) {
     return className.startsWith("io.vertx.tracing") ||
-            className.equals("org.folio.javaagent.instrumentation.rmb.RmbSingletons");
+            className.equals("org.folio.javaagent.instrumentation.Singletons");
   }
 }

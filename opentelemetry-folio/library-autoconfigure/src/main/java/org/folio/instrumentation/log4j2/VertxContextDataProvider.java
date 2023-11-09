@@ -1,7 +1,6 @@
 package org.folio.instrumentation.log4j2;
 
-import io.vertx.core.Context;
-import io.vertx.core.Vertx;
+import io.opentelemetry.api.baggage.Baggage;
 import org.apache.logging.log4j.core.util.ContextDataProvider;
 
 import java.util.HashMap;
@@ -13,13 +12,18 @@ public class VertxContextDataProvider implements ContextDataProvider {
   public Map<String, String> supplyContextData() {
     Map<String, String> contextData = new HashMap<>();
 
-    Context context = Vertx.currentContext();
-    if (context != null) {
-      String folio_requestid = context.getLocal("folio_requestid");
-      if (folio_requestid != null) {
-        contextData.put("reqId", folio_requestid);
-      }
+    Baggage baggage = Baggage.current();
+    String requestId = baggage.getEntryValue("folio.requestId");
+    String tenantId = baggage.getEntryValue("folio.tenantId");
+    String userId = baggage.getEntryValue("folio.userId");
+
+
+    if (requestId != null) {
+      contextData.put("reqId", requestId);
+      contextData.put("tenantId", tenantId);
+      contextData.put("userId", userId);
     }
+
     return contextData;
   }
 }

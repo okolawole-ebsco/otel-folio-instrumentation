@@ -33,18 +33,21 @@ public class FolioLoggingInstrumentationModule extends InstrumentationModule {
 
   @Override
   public void registerHelperResources(HelperResourceBuilder helperResourceBuilder) {
-    // service file is preprended with 'application.' because the java agent jar has its own service file.
-    // so OTel picks up the service in the java agent jar rather than this one.
     helperResourceBuilder.register(
             "META-INF/services/org.apache.logging.log4j.core.util.ContextDataProvider",
             "META-INF/services/org.apache.logging.log4j.core.util.ContextDataProvider");
+  }
+
+  @Override
+  public boolean isHelperClass(String className) {
+    return className.startsWith("org.folio.instrumentation.log4j2.VertxContextDataProvider");
   }
 
   // A type instrumentation is needed to trigger resource injection.
   public static class ResourceInjectingTypeInstrumentation implements TypeInstrumentation {
     @Override
     public ElementMatcher<TypeDescription> typeMatcher() {
-      return named("org.apache.logging.log4j.core.util.ContextDataProvider");
+      return named("org.folio.instrumentation.log4j2.VertxContextDataProvider");
     }
 
     @Override
