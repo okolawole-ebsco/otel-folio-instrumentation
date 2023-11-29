@@ -13,15 +13,15 @@ plugins {
     id "com.github.johnrengelman.shadow" version "8.1.1"
     id "com.diffplug.spotless" version "6.22.0"
 
-    id "io.opentelemetry.instrumentation.muzzle-generation" version "1.31.0-alpha"
-    id "io.opentelemetry.instrumentation.muzzle-check" version "1.31.0-alpha"
+    id "io.opentelemetry.instrumentation.muzzle-generation" version "1.28.0-alpha"
+    id "io.opentelemetry.instrumentation.muzzle-check" version "1.28.0-alpha"
 }
 
 ext {
     versions = [
-            opentelemetrySdk           : "1.31.0",
-            opentelemetryJavaagent     : "1.31.0",
-            opentelemetryJavaagentAlpha: "1.31.0-alpha",
+            opentelemetrySdk           : "1.28.0",
+            opentelemetryJavaagent     : "1.28.0",
+            opentelemetryJavaagentAlpha: "1.28.0-alpha",
             junit                      : "5.10.0"
     ]
 
@@ -41,17 +41,15 @@ configurations {
 
 dependencies {
     implementation(platform("io.opentelemetry:opentelemetry-bom:${versions.opentelemetrySdk}"))
-
-    // these serve as a test of the instrumentation boms
     implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:${versions.opentelemetryJavaagent}"))
-    implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom-alpha:${versions.opentelemetryJavaagentAlpha}"))
+
     /*
     Interfaces and SPIs that we implement. We use `compileOnly` dependency because during
     runtime all necessary classes are provided by javaagent itself.
      */
-    compileOnly("io.opentelemetry:opentelemetry-sdk-extension-autoconfigure")
+    compileOnly("io.opentelemetry:opentelemetry-sdk-extension-autoconfigure:${versions.opentelemetryJavaagentAlpha}")
     compileOnly("io.opentelemetry.instrumentation:opentelemetry-instrumentation-api")
-    compileOnly("io.opentelemetry.javaagent:opentelemetry-javaagent-extension-api")
+    compileOnly("io.opentelemetry.javaagent:opentelemetry-javaagent-extension-api:${versions.opentelemetryJavaagentAlpha}")
 
     //Provides @AutoService annotation that makes registration of our SPI implementations much easier
     compileOnly deps.autoservice
@@ -66,11 +64,12 @@ dependencies {
     compileOnly group: 'io.opentelemetry', name: 'opentelemetry-api'
 
     implementation(project(path: ":opentelemetry-folio:library-autoconfigure"))
-    implementation group: 'io.vertx', name: 'vertx-opentelemetry', version: '4.3.7'
+    implementation "io.opentelemetry:opentelemetry-exporter-otlp:${versions.opentelemetrySdk}"
+    implementation group: 'io.vertx', name: 'vertx-opentelemetry', version: '5.0.0-SNAPSHOT'
     implementation "io.opentelemetry.contrib:opentelemetry-samplers:${versions.opentelemetryJavaagentAlpha}"
 //    implementation "io.opentelemetry.contrib:opentelemetry-noop-api:${versions.opentelemetryJavaagentAlpha}"
-    implementation 'io.opentelemetry.instrumentation:opentelemetry-resources'
-    implementation 'io.opentelemetry.semconv:opentelemetry-semconv'
+    implementation "io.opentelemetry.instrumentation:opentelemetry-resources:${versions.opentelemetryJavaagentAlpha}"
+//    implementation 'io.opentelemetry.semconv:opentelemetry-semconv'
 
 
 

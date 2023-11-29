@@ -30,7 +30,8 @@ public class FolioVertxInstrumentationModule extends InstrumentationModule {
     public List<TypeInstrumentation> typeInstrumentations() {
         return asList(
                 new VertxOptionsInstrumentation(),
-                new VertxPgClientInstrumentation()
+                new VertxPgClientInstrumentation(),
+                new VertxKafkaReadStreamImplInstrumentation()
         );
     }
 
