@@ -40,14 +40,14 @@ public class FolioLoggingInstrumentationModule extends InstrumentationModule {
 
   @Override
   public boolean isHelperClass(String className) {
-    return className.startsWith("org.folio.instrumentation.log4j2.VertxContextDataProvider");
+    return className.startsWith("org.folio.instrumentation.log4j2.FolioContextDataProvider");
   }
 
   // A type instrumentation is needed to trigger resource injection.
   public static class ResourceInjectingTypeInstrumentation implements TypeInstrumentation {
     @Override
     public ElementMatcher<TypeDescription> typeMatcher() {
-      return named("org.folio.instrumentation.log4j2.VertxContextDataProvider");
+      return named("org.folio.instrumentation.log4j2.FolioContextDataProvider");
     }
 
     @Override

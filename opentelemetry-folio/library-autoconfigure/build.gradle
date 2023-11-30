@@ -8,6 +8,7 @@ archivesBaseName = 'folio-otel-extensions-autoconfigure'
 dependencies {
     compileOnly group: 'io.vertx', name: 'vertx-core', version: '4.3.7'
     compileOnly("io.opentelemetry:opentelemetry-api:1.28.0")
+    compileOnly("io.opentelemetry.instrumentation:opentelemetry-instrumentation-api:1.28.0")
     compileOnly("org.apache.logging.log4j:log4j-core:2.16.0")
 }
 
