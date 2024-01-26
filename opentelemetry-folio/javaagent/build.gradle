@@ -69,6 +69,7 @@ dependencies {
     implementation "io.opentelemetry.contrib:opentelemetry-samplers:${versions.opentelemetryJavaagentAlpha}"
 //    implementation "io.opentelemetry.contrib:opentelemetry-noop-api:${versions.opentelemetryJavaagentAlpha}"
     implementation "io.opentelemetry.instrumentation:opentelemetry-resources:${versions.opentelemetryJavaagentAlpha}"
+    implementation "io.opentelemetry:opentelemetry-sdk-extension-jaeger-remote-sampler:${versions.opentelemetryJavaagent}"
 //    implementation 'io.opentelemetry.semconv:opentelemetry-semconv'
 
 

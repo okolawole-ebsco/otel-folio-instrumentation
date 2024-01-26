@@ -6,18 +6,15 @@ import io.opentelemetry.contrib.sampler.RuleBasedRoutingSampler;
 import io.opentelemetry.sdk.autoconfigure.spi.AutoConfigurationCustomizer;
 import io.opentelemetry.sdk.autoconfigure.spi.AutoConfigurationCustomizerProvider;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
-import io.opentelemetry.sdk.metrics.SdkMeterProvider;
 import io.opentelemetry.sdk.metrics.SdkMeterProviderBuilder;
 import io.opentelemetry.sdk.resources.Resource;
 import io.opentelemetry.sdk.trace.SdkTracerProviderBuilder;
+import io.opentelemetry.sdk.trace.samplers.Sampler;
 import io.opentelemetry.semconv.resource.attributes.ResourceAttributes;
 import org.folio.javaagent.instrumentation.vertx.DbAttributesSpanProcessor;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 import static io.opentelemetry.semconv.trace.attributes.SemanticAttributes.HTTP_URL;
 
@@ -30,11 +27,13 @@ public class FolioAutoConfigurationCustomizerProvider
     autoConfiguration.addResourceCustomizer(this::configureResourceCustomizer)
             .addTracerProviderCustomizer(this::configureSdkTracerProvider)
             .addMeterProviderCustomizer(this:: configureSdkMetricProvider)
-            .addSamplerCustomizer(
-        ((sampler, configProperties) ->
-            RuleBasedRoutingSampler.builder(SpanKind.SERVER, sampler)
-                .drop(HTTP_URL, ".*/admin/health")
-                .build()));
+            .addSamplerCustomizer(this::configureSdkSamplerProvider);
+  }
+
+  private Sampler configureSdkSamplerProvider(Sampler sampler, ConfigProperties config) {
+      return RuleBasedRoutingSampler.builder(SpanKind.SERVER, sampler)
+              .drop(HTTP_URL, ".*/admin/health")
+              .build();
   }
 
   private SdkTracerProviderBuilder configureSdkTracerProvider(
@@ -49,7 +48,7 @@ public class FolioAutoConfigurationCustomizerProvider
   }
 
     private Resource configureResourceCustomizer(Resource resource, ConfigProperties configProperties) {
-        String hostname = null;
+        String hostname;
         try {
             hostname = InetAddress.getLocalHost().getHostName();
         } catch (UnknownHostException e) {
