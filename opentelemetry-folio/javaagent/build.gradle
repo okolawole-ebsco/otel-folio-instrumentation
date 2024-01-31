@@ -65,7 +65,7 @@ dependencies {
 
     implementation(project(path: ":opentelemetry-folio:library-autoconfigure"))
     implementation "io.opentelemetry:opentelemetry-exporter-otlp:${versions.opentelemetrySdk}"
-    implementation group: 'io.vertx', name: 'vertx-opentelemetry', version: '5.0.0-SNAPSHOT'
+    implementation group: 'io.vertx', name: 'vertx-opentelemetry', version: '4.3.7'
     implementation "io.opentelemetry.contrib:opentelemetry-samplers:${versions.opentelemetryJavaagentAlpha}"
 //    implementation "io.opentelemetry.contrib:opentelemetry-noop-api:${versions.opentelemetryJavaagentAlpha}"
     implementation "io.opentelemetry.instrumentation:opentelemetry-resources:${versions.opentelemetryJavaagentAlpha}"
